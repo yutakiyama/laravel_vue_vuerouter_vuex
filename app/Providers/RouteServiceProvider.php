@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+// RouteServiceProvider はアプリケーションの起動時にルート定義を読み込むためのクラス
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -66,8 +67,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('web')// ★ 'api' → 'web' に変更
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 }
