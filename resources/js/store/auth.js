@@ -3,7 +3,7 @@ import { OK, UNPROCESSABLE_ENTITY } from '../util'
 const state = {
   user: null,
   apiStatus: null,
-  loginErrorMessage: null
+  loginErrorMessages: null
 }
 
 const getters = {
@@ -40,9 +40,9 @@ const actions = {
 
     context.commit('setApiStatus', false)
     if (response.status === UNPROCESSABLE_ENTITY) {
-      context.commit('setLoginErrorMessage', response.data.errors)
+      context.commit('setLoginErrorMessages', response.data.errors)
     } else {
-      context.commit('error/setCode', response.status, { root: true})
+      context.commit('error/setCode', response.status, { root: true })
     }
   },
   async logout (context) {
