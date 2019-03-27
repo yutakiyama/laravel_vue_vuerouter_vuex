@@ -89,7 +89,13 @@
         await this.$store.dispatch('auth/register', this.registerForm)
         // トップページに移動する
         this.$router.push('/')
+      },
+      clearError () {
+        this.$store.commit('auth/setLoginErrorMessages', null)
       }
+    },
+    created () {
+      this.clearError()
     }
 
   }
