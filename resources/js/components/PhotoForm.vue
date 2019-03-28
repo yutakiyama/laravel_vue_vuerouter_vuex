@@ -30,11 +30,13 @@
       onFileChange (event) {
         // 何も選択されていなかったら処理中断
         if (event.target.files.length === 0) {
+          this.reset()
           return false
         }
 
         // ファイルが画像ではなかったら処理中断
         if (!event.target.files[0].type.match('image.*')) {
+          this.reset()
           return false
         }
 
@@ -55,6 +57,10 @@
         // 読み込まれたファイルはデータURL形式で受け取れる（上記onload参照）
         reader.readAsDataURL(event.target.files[0])
 
+      },
+      reset () {
+        this.preview = ''
+        this.$el.querySelector('input[type="file"]').value = null
       }
 
     }
