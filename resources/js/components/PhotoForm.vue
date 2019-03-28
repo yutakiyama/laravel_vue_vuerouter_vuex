@@ -2,6 +2,11 @@
   <div v-show="value" class="photo-form">
     <h2 class="title">Submit a photo</h2>
     <form class="form" @submit.prevent="submit">
+      <div class="errors" v-if="errors">
+        <ul v-if="errors.photo">
+          <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
+        </ul>
+      </div>
       <input class="form__item" type="file" @change="onFileChange">
       <output class="form__output" v-if="preview">
         <img :src="preview" v-if="preview">
@@ -14,6 +19,8 @@
 </template>
 
 <script>
+  import { CREATED, UNPROCESSABLE_ENTITY} from '../util'
+
   export default {
     props: {
       value: {
@@ -24,7 +31,8 @@
     data () {
       return {
         preview: null,
-        photo: null // ファイルを格納するphotoを追加
+        photo: null, // ファイルを格納するphotoを追加
+        errors: null
       }
     },
     methods: {
@@ -67,13 +75,23 @@
         this.photo = null // photoおクリアする記述を追加
         this.$el.querySelector('input[type="file"]').value = null
       },
-      async submit () { // submitメソッド追加
-        const formData = new FormData() // FormData API
+      async submit () {
+        const formData = new FormData()// FormData API
         formData.append('photo', this.photo)
         const response = await axios.post('/api/photos', formData)
 
+        if (response.status === UNPROCESSABLE_ENTITY) {
+          this.errors = response.data.errors
+          return false // バリデーションエラーの場合は、値をクリアしたりフォームを閉じる前に処理を中断
+        }
+
         this.reset()
         this.$emit('input', false)
+
+        if (response.status !== CREATED) {
+          this.$store.commit('error/setCode', response.status)
+          return false
+        }
 
         this.$router.push(`/photos/${response.data.id}`) //投稿完了後に写真詳細ページに移動する
       }
