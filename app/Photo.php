@@ -12,6 +12,11 @@ class Photo extends Model
     /** IDの桁数 */
     const ID_LENGTH = 12;
 
+    /** JSONに含める属性 */
+    protected $appends = [
+        'url',
+    ];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -59,4 +64,14 @@ class Photo extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id', 'users');
     }
+
+    /**
+     * アクセサ - url
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return Storage::cloud()->url($this->attributes['filename']);
+    }
+
 }
