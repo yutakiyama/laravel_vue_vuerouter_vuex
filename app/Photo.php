@@ -17,6 +17,12 @@ class Photo extends Model
         'url',
     ];
 
+    /** JSONに含めない属性 */
+    protected $hidden = [
+        'user_id', 'filename',
+        self::CREATED_AT, self::UPDATED_AT,
+    ];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
