@@ -106,6 +106,12 @@
           return false
         }
 
+        // メッセージ登録
+        this.$store.commit('message/setContent', {
+          content: '写真が投稿されました！',
+          timeout: 6000
+        })
+
         this.$router.push(`/photos/${response.data.id}`) //投稿完了後に写真詳細ページに移動する
       }
 
