@@ -10,3 +10,18 @@
     </div>
   </div>
 </template>
+
+<script>
+  import Photo from '../components/Photo.vue'
+
+  export default {
+    components: {
+      Photo
+    },
+    data () {
+      return {
+        photos: []
+      }
+    }
+  }
+</script>
