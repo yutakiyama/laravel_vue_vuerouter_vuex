@@ -19,6 +19,14 @@
         >
           <i class="icon ion-md-heart"></i>12
         </button>
+        <a
+            class="photo__action"
+            title="Download photo"
+            @click.stop
+            :href="`/photos/${item.id}/download`"
+        >
+          <i class="icon ion-md-arrow-round-down"></i>
+        </a>
       </div>
     </RouterLink>
   </div>
